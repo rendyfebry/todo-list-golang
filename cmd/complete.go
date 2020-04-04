@@ -21,26 +21,28 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// completeCmd represents the complete command
-var completeCmd = &cobra.Command{
-	Use:   "complete",
-	Short: "Complete a task",
-	Long:  `Mark a task as completed/done.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("complete called")
-	},
-}
+var (
+	tEdit Task
+
+	completeCmd = &cobra.Command{
+		Use:   "complete",
+		Short: "Complete a task",
+		Long:  `Mark a task as completed/done.`,
+		RunE:  editTask,
+	}
+)
 
 func init() {
+	completeCmd.ResetFlags()
+	completeCmd.PersistentFlags().StringVarP(&tDel.ID, "id", "i", "", "task id")
+	completeCmd.MarkPersistentFlagRequired("id")
+
 	rootCmd.AddCommand(completeCmd)
+}
 
-	// Here you will define your flags and configuration settings.
+func editTask(cmd *cobra.Command, args []string) error {
+	fmt.Println("complete called")
+	fmt.Println(&tEdit)
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// completeCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// completeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	return nil
 }
