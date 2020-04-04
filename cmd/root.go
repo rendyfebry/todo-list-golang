@@ -38,8 +38,8 @@ var rootCmd = &cobra.Command{
 	   ██║   ██║   ██║██║   ██║██║   ██║╚════██║ ╚═══╝ ██║ ╚═██║ ██║   ██║
 	   ██║   ╚██████╔╝███████╔╝╚██████╔╝███████║       ╚██████╔╝ ╚██████╔╝
 	   ╚═╝    ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝        ╚═════╝   ╚═════╝ 
-		 Todos-Go - Another todo list app
-		 (C) Copyright 2020 Rendy Febry. All rights reserved.`,
+	Todos-Go - Another todo list app
+	(C) Copyright 2020 Rendy Febry. All rights reserved.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
