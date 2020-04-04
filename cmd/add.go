@@ -40,13 +40,11 @@ var (
 )
 
 func init() {
-	initAddFlags()
-}
-
-func initAddFlags() {
 	addCmd.ResetFlags()
 	addCmd.PersistentFlags().StringVarP(&tNew.Text, "text", "t", "", "task content")
 	addCmd.MarkPersistentFlagRequired("text")
+
+	rootCmd.AddCommand(addCmd)
 }
 
 func addTask(cmd *cobra.Command, args []string) error {
