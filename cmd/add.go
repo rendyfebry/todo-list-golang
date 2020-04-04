@@ -21,26 +21,37 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// addCmd represents the add command
-var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Add task",
-	Long:  "Add new task",
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
-	},
+// Task ...
+type Task struct {
+	ID   string
+	Text string
+	Done bool
 }
 
+var (
+	tNew Task
+
+	addCmd = &cobra.Command{
+		Use:   "add",
+		Short: "Add task",
+		Long:  "Add new task",
+		RunE:  addTask,
+	}
+)
+
 func init() {
-	rootCmd.AddCommand(addCmd)
+	initAddFlags()
+}
 
-	// Here you will define your flags and configuration settings.
+func initAddFlags() {
+	addCmd.ResetFlags()
+	addCmd.PersistentFlags().StringVarP(&tNew.Text, "text", "t", "", "task content")
+	addCmd.MarkPersistentFlagRequired("text")
+}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
+func addTask(cmd *cobra.Command, args []string) error {
+	fmt.Println("add called")
+	fmt.Println(&tNew)
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	return nil
 }
