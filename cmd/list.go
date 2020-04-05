@@ -18,7 +18,6 @@ package cmd
 import (
 	"fmt"
 
-	couchdb "github.com/leesper/couchdb-golang"
 	"github.com/spf13/cobra"
 )
 
@@ -39,19 +38,22 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+
+	connectDB()
 }
 
 func listTask(cmd *cobra.Command, args []string) error {
-	dbString := fmt.Sprintf("http://%s:%s@%s:5984/%s_rendyfebry", dbRemoteUser, dbRemotePassword, dbRemoteHost, dbName)
+	fmt.Println("\nTask list")
+	fmt.Println("==========================")
 
-	db, err := couchdb.NewDatabase(dbString)
+	docs, err := db.QueryJSON(`{"selector": {}, "limit": 1000}`)
 	if err != nil {
 		return err
 	}
 
-	docs, err := db.QueryJSON(`{"selector": {}}`)
-	if err != nil {
-		return err
+	if len(docs) == 0 {
+		fmt.Println("Empty!")
+		return nil
 	}
 
 	for _, doc := range docs {
