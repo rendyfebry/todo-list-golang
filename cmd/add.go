@@ -77,7 +77,7 @@ func addTask(cmd *cobra.Command, args []string) error {
 		fmt.Println("Add Item Failed!")
 		fmt.Println(err)
 
-		return err
+		return nil
 	}
 
 	fmt.Println("New task added!")

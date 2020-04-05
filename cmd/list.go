@@ -48,7 +48,8 @@ func listTask(cmd *cobra.Command, args []string) error {
 
 	docs, err := db.QueryJSON(`{"selector": {}, "limit": 1000}`)
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return nil
 	}
 
 	if len(docs) == 0 {
