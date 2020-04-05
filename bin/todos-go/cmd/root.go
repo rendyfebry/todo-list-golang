@@ -29,7 +29,7 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "todos-go",
+	Use:   "todo-list-golang",
 	Short: "Another todo list app",
 	Long: `
 	████████╗ ██████╗ ███████╗  ██████╗ ███████╗        ██████╗   ██████╗ 

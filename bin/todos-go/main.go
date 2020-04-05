@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/rendyfebry/todo-list-golang/cmd"
+import "github.com/rendyfebry/todo-list-golang/bin/todos-go/cmd"
 
 func main() {
 	cmd.Execute()
