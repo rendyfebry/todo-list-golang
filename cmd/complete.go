@@ -34,15 +34,43 @@ var (
 
 func init() {
 	completeCmd.ResetFlags()
-	completeCmd.PersistentFlags().StringVarP(&tDel.ID, "id", "i", "", "task id")
+	completeCmd.PersistentFlags().StringVarP(&tEdit.ID, "id", "i", "", "task id")
 	completeCmd.MarkPersistentFlagRequired("id")
 
 	rootCmd.AddCommand(completeCmd)
+
+	connectDB()
 }
 
 func editTask(cmd *cobra.Command, args []string) error {
-	fmt.Println("complete called")
-	fmt.Println(&tEdit)
+	fmt.Println("\nMark Item")
+	fmt.Println("==========================")
+
+	doc, err := db.Get(tEdit.ID, nil)
+	if err != nil {
+		fmt.Println("Mark Item Failed!")
+		fmt.Println(err)
+
+		return nil
+	}
+
+	updatedDoc := map[string]interface{}{
+		"_id":  doc["_id"],
+		"_rev": doc["_rev"],
+		"text": doc["text"],
+		"done": true,
+	}
+
+	_, _, err = db.Save(updatedDoc, nil)
+	if err != nil {
+		fmt.Println("Mark Item Failed!")
+		fmt.Println(err)
+
+		return nil
+	}
+
+	fmt.Println("Successfully mark!")
+	fmt.Println(fmt.Sprintf("%+v", updatedDoc))
 
 	return nil
 }
