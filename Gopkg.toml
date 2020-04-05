@@ -32,3 +32,7 @@
 [[constraint]]
   name = "github.com/spf13/cobra"
   version = "0.0.7"
+
+[[constraint]]
+  name = "github.com/leesper/couchdb-golang"
+  version = "1.2.1"

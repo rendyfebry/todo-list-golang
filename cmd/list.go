@@ -18,7 +18,15 @@ package cmd
 import (
 	"fmt"
 
+	couchdb "github.com/leesper/couchdb-golang"
 	"github.com/spf13/cobra"
+)
+
+const (
+	dbName           = "todos"
+	dbRemoteUser     = "admin"
+	dbRemotePassword = "iniadmin"
+	dbRemoteHost     = "13.250.43.79"
 )
 
 // listCmd represents the list command
@@ -26,21 +34,34 @@ var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List tasks",
 	Long:  `List all task.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
-	},
+	RunE:  listTask,
 }
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+}
 
-	// Here you will define your flags and configuration settings.
+func listTask(cmd *cobra.Command, args []string) error {
+	dbString := fmt.Sprintf("http://%s:%s@%s:5984/%s_rendyfebry", dbRemoteUser, dbRemotePassword, dbRemoteHost, dbName)
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
+	db, err := couchdb.NewDatabase(dbString)
+	if err != nil {
+		return err
+	}
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	docs, err := db.QueryJSON(`{"selector": {}}`)
+	if err != nil {
+		return err
+	}
+
+	for _, doc := range docs {
+		doneMark := " "
+		if doc["done"] != nil && doc["done"].(bool) {
+			doneMark = "X"
+		}
+
+		fmt.Println(fmt.Sprintf("[%s] %s - %s", doneMark, doc["_id"], doc["text"]))
+	}
+
+	return nil
 }

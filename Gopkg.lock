@@ -37,6 +37,14 @@
   version = "v1.0"
 
 [[projects]]
+  digest = "1:9e1b876b289c0cebe7aa8565997510c745e5bdeff3bf8c2e5573112976b88d96"
+  name = "github.com/leesper/couchdb-golang"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1fe73a5682dc83913c5944b52a8506b9e2f85717"
+  version = "v1.2.1"
+
+[[projects]]
   digest = "1:5a0ef768465592efca0412f7e838cdc0826712f8447e70e6ccc52eb441e9ab13"
   name = "github.com/magiconair/properties"
   packages = ["."]
@@ -170,6 +178,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/leesper/couchdb-golang",
     "github.com/mitchellh/go-homedir",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",
