@@ -18,21 +18,12 @@ package cmd
 import (
 	"fmt"
 
-	couchdb "github.com/leesper/couchdb-golang"
-	uuid "github.com/satori/go.uuid"
+	"github.com/rendyfebry/todo-list-golang/lib/todos"
 	"github.com/spf13/cobra"
 )
 
-// Task ...
-type Task struct {
-	ID   string
-	Text string
-	Done bool
-}
-
 var (
-	db   *couchdb.Database
-	tNew Task
+	tNew todos.Task
 
 	addCmd = &cobra.Command{
 		Use:   "add",
@@ -48,31 +39,13 @@ func init() {
 	addCmd.MarkPersistentFlagRequired("text")
 
 	rootCmd.AddCommand(addCmd)
-
-	connectDB()
-}
-
-func connectDB() {
-	var err error
-	dbString := fmt.Sprintf("http://%s:%s@%s:5984/%s_rendyfebry", dbRemoteUser, dbRemotePassword, dbRemoteHost, dbName)
-
-	db, err = couchdb.NewDatabase(dbString)
-	if err != nil {
-		fmt.Println(err)
-	}
 }
 
 func addTask(cmd *cobra.Command, args []string) error {
 	fmt.Println("\nAdd Task")
 	fmt.Println("==========================")
 
-	newDoc := map[string]interface{}{
-		"_id":  uuid.NewV4().String(),
-		"text": tNew.Text,
-		"done": tNew.Done,
-	}
-
-	_, _, err := db.Save(newDoc, nil)
+	newDoc, err := todosSvc.Add(tNew.Text)
 	if err != nil {
 		fmt.Println("Add Item Failed!")
 		fmt.Println(err)

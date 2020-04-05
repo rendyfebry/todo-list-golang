@@ -21,13 +21,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const (
-	dbName           = "todos"
-	dbRemoteUser     = "admin"
-	dbRemotePassword = "iniadmin"
-	dbRemoteHost     = "13.250.43.79"
-)
-
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
@@ -38,15 +31,13 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-
-	connectDB()
 }
 
 func listTask(cmd *cobra.Command, args []string) error {
 	fmt.Println("\nTask list")
 	fmt.Println("==========================")
 
-	docs, err := db.QueryJSON(`{"selector": {}, "limit": 1000}`)
+	docs, err := todosSvc.List()
 	if err != nil {
 		fmt.Println(err)
 		return nil

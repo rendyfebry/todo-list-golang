@@ -18,11 +18,12 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/rendyfebry/todo-list-golang/lib/todos"
 	"github.com/spf13/cobra"
 )
 
 var (
-	tEdit Task
+	tEdit todos.Task
 
 	completeCmd = &cobra.Command{
 		Use:   "complete",
@@ -38,30 +39,13 @@ func init() {
 	completeCmd.MarkPersistentFlagRequired("id")
 
 	rootCmd.AddCommand(completeCmd)
-
-	connectDB()
 }
 
 func editTask(cmd *cobra.Command, args []string) error {
 	fmt.Println("\nMark Item")
 	fmt.Println("==========================")
 
-	doc, err := db.Get(tEdit.ID, nil)
-	if err != nil {
-		fmt.Println("Mark Item Failed!")
-		fmt.Println(err)
-
-		return nil
-	}
-
-	updatedDoc := map[string]interface{}{
-		"_id":  doc["_id"],
-		"_rev": doc["_rev"],
-		"text": doc["text"],
-		"done": true,
-	}
-
-	_, _, err = db.Save(updatedDoc, nil)
+	updatedDoc, err := todosSvc.Complete(tEdit.ID)
 	if err != nil {
 		fmt.Println("Mark Item Failed!")
 		fmt.Println(err)

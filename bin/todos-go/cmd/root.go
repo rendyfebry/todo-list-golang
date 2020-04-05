@@ -19,13 +19,23 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/rendyfebry/todo-list-golang/lib/todos"
 	"github.com/spf13/cobra"
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
 
+const (
+	dbName           = "todos"
+	dbRemoteUser     = "admin"
+	dbRemotePassword = "iniadmin"
+	dbRemoteHost     = "13.250.43.79"
+)
+
 var cfgFile string
+
+var todosSvc todos.TodoService
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -66,6 +76,16 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	initSvc()
+}
+
+func initSvc() {
+	var err error
+	todosSvc, err = todos.NewTodoService(dbRemoteUser, dbRemotePassword, dbRemoteHost, dbName)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.

@@ -18,11 +18,12 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/rendyfebry/todo-list-golang/lib/todos"
 	"github.com/spf13/cobra"
 )
 
 var (
-	tDel Task
+	tDel todos.Task
 
 	deleteCmd = &cobra.Command{
 		Use:   "delete",
@@ -38,15 +39,13 @@ func init() {
 	deleteCmd.MarkPersistentFlagRequired("id")
 
 	rootCmd.AddCommand(deleteCmd)
-
-	connectDB()
 }
 
 func deleteTask(cmd *cobra.Command, args []string) error {
 	fmt.Println("\nDelete Item")
 	fmt.Println("==========================")
 
-	err := db.Delete(tDel.ID)
+	err := todosSvc.Delete(tDel.ID)
 	if err != nil {
 		fmt.Println("Delete Failed!")
 		fmt.Println(err)
