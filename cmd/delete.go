@@ -38,11 +38,22 @@ func init() {
 	deleteCmd.MarkPersistentFlagRequired("id")
 
 	rootCmd.AddCommand(deleteCmd)
+
+	connectDB()
 }
 
 func deleteTask(cmd *cobra.Command, args []string) error {
-	fmt.Println("delete called")
-	fmt.Println(&tDel)
+	fmt.Println("\nDelete Item")
+	fmt.Println("==========================")
+
+	err := db.Delete(tDel.ID)
+	if err != nil {
+		fmt.Println("Delete Failed!")
+		fmt.Println(err)
+		return nil
+	}
+
+	fmt.Println("Sucessfully delete Item!")
 
 	return nil
 }
