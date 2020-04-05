@@ -39,3 +39,17 @@ PS: If you didn't install globally, you need to change the command from `todos-g
 ```
 go run bin/todos-go/main.go list
 ```
+
+## Docker
+
+Docker Build
+
+```
+docker build -t todos-go .
+```
+
+Run in Docker
+
+```
+docker run --rm -ti todos-go list
+```
